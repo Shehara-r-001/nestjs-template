@@ -5,9 +5,9 @@ This is a boilerplate template for building scalable applications using [NestJS]
 ## 📌 Features
 
 - 🏎 **SWC** - Faster TypeScript compilation using `swc`
-- 📖 **Swagger API Documentation** - Auto-generated API docs using `@nestjs/swagger`
 - 📂 **Organized Folder Structure** - Clean modular architecture
 - 🔥 **Redis Caching** - Integrated Redis support with `ioredis`
+- 📖 **Swagger API Documentation** - Auto-generated API docs using `@nestjs/swagger`
 - ✅ **Linting & Formatting** - Pre-configured ESLint and Prettier
 
 ---
@@ -38,7 +38,7 @@ src/
 Ensure you have the following installed:
 
 - [Node.js](https://nodejs.org/) (Latest LTS recommended)
-- [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/)
+- [npm](https://www.npmjs.com/)
 - [Docker](https://www.docker.com/) (Optional, for Redis)
 
 ### Installation
