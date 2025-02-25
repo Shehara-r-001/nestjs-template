@@ -22,9 +22,11 @@ export class HashService {
    */
   async encrypt(secret: string) {
     try {
+      const pepper = this.configService.get<string>("HASH_PEPPER");
+
       return await argon2.hash(secret, {
         type: argon2.argon2i,
-        secret: this.configService.get("HASH_PEPPER"),
+        secret: Buffer.from(pepper),
       });
     } catch (error) {
       this.logger.error("Error while encrypting");

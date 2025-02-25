@@ -3,6 +3,7 @@ import {
   IsEmail,
   IsEnum,
   IsNotEmpty,
+  IsOptional,
   IsString,
   MaxLength,
 } from "class-validator";
@@ -19,17 +20,17 @@ export enum UserRole {
 
 @Entity()
 export class User extends BaseEntity {
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   @MaxLength(100)
-  @Column({ type: "varchar", length: 100 })
+  @Column({ type: "varchar", length: 100, nullable: true })
   @ApiProperty({ example: "John", description: "The first name of the user" })
   firstname: string;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   @MaxLength(100)
-  @Column({ type: "varchar", length: 100 })
+  @Column({ type: "varchar", length: 100, nullable: true })
   @ApiProperty({ example: "Doe", description: "The last name of the user" })
   lastname: string;
 

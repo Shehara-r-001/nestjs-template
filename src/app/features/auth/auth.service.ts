@@ -18,6 +18,7 @@ export class AuthService {
   ) {}
 
   async signUp(signUpDTO: SignUpDTO) {
+    // ! need to implement rollback
     const isUserExist = await this.userService.isUserExist(signUpDTO.email);
 
     if (isUserExist)

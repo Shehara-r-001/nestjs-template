@@ -38,7 +38,6 @@ export class UsersService {
   async findOneByEmail(email: string) {
     const user = await this.userRepository.findOne({
       where: { email },
-      relations: ["Company"],
     });
 
     this.exceptionService.throwNotFoundError(user);
