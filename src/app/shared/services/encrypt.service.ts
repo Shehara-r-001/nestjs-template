@@ -15,6 +15,8 @@ export class HashService {
     private logger: Logger,
   ) {}
 
+  private readonly pepper = this.configService.get<string>("HASH_PEPPER");
+
   /**
    * Encrypts a secret using Argon2 with a pepper.
    * @param secret The plain-text secret to hash.
@@ -22,11 +24,9 @@ export class HashService {
    */
   async encrypt(secret: string) {
     try {
-      const pepper = this.configService.get<string>("HASH_PEPPER");
-
       return await argon2.hash(secret, {
         type: argon2.argon2i,
-        secret: Buffer.from(pepper),
+        secret: Buffer.from(this.pepper),
       });
     } catch (error) {
       this.logger.error("Error while encrypting");
@@ -43,7 +43,7 @@ export class HashService {
   async verify(hash: string, secret: string) {
     try {
       return await argon2.verify(hash, secret, {
-        secret: this.configService.get("HASH_PEPPER"),
+        secret: Buffer.from(this.pepper),
       });
     } catch (error) {
       this.logger.error("Error while verifying");

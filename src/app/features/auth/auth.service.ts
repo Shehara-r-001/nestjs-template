@@ -50,8 +50,8 @@ export class AuthService {
     this.exceptionService.throwNotFoundError("user not found");
 
     const isMatch = await this.encryptService.verify(
-      signInDTO.password,
       user.password,
+      signInDTO.password,
     );
 
     if (!isMatch)
