@@ -7,6 +7,7 @@ import {
 } from "@nestjs/common";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import helmet from "helmet";
+// import * as cookieParser from "cookie-parser";
 
 import { AppModule } from "./app.module";
 import { ResponseInterceptor } from "./app/core/interceptors/response.interceptor";
@@ -26,6 +27,8 @@ async function bootstrap() {
   app.use(helmet());
 
   app.enableCors();
+
+  // app.use(cookieParser());
 
   app.useGlobalPipes(
     new ValidationPipe({
