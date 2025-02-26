@@ -38,9 +38,13 @@ export class AuthService {
         ...excludeProperty(newUser, ["password"]),
       };
 
-      return {
-        access_token: await this.jwtService.signAsync(payload),
-      };
+      const token = await this.jwtService.signAsync(payload);
+
+      // return {
+      //   access_token: token,
+      // };
+
+      return { token };
     }
   }
 
@@ -62,8 +66,12 @@ export class AuthService {
       ...excludeProperty(user, ["password"]),
     };
 
-    return {
-      access_token: await this.jwtService.signAsync(payload),
-    };
+    const token = await this.jwtService.signAsync(payload);
+
+    // return {
+    //   access_token: await this.jwtService.signAsync(payload),
+    // };
+
+    return { token };
   }
 }
