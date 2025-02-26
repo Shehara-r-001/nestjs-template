@@ -7,7 +7,7 @@ import {
 } from "@nestjs/common";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import helmet from "helmet";
-// import * as cookieParser from "cookie-parser";
+import cookieParser from "cookie-parser";
 
 import { AppModule } from "./app.module";
 import { ResponseInterceptor } from "./app/core/interceptors/response.interceptor";
@@ -26,9 +26,12 @@ async function bootstrap() {
 
   app.use(helmet());
 
-  app.enableCors();
+  app.enableCors({
+    origin: "*",
+    credentials: true,
+  });
 
-  // app.use(cookieParser());
+  app.use(cookieParser());
 
   app.useGlobalPipes(
     new ValidationPipe({
@@ -53,7 +56,8 @@ async function bootstrap() {
     .setTitle("Nest Template")
     .setDescription("API description")
     .setVersion("1.0")
-    .addBearerAuth()
+    // .addBearerAuth()
+    .addCookieAuth("access_token")
     .addTag("nest")
     .build();
 

@@ -20,12 +20,12 @@ export class ExceptionsService {
     }
   }
 
-  throwCustomError(statusCode: number, message: string) {
+  throwCustomError(statusCode: number, message: string): never {
     this.logger.error(message);
     throw new HttpException(message, statusCode);
   }
 
-  throwBadRequestError(message = "Bad request") {
+  throwBadRequestError(message = "Bad request"): never {
     this.logger.error(message);
     throw new HttpException(message, HttpStatus.BAD_REQUEST);
   }

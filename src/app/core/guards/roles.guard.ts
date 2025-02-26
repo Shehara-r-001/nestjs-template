@@ -22,7 +22,8 @@ export class RolesGuard extends AuthGuard("jwt") {
     }
     const request: Request = context.switchToHttp().getRequest();
 
-    if (!request.headers.authorization) throw new UnauthorizedException();
+    // if (!request.headers.authorization) throw new UnauthorizedException();
+    if (!request.cookies?.access_token) throw new UnauthorizedException();
     else {
       return roles.includes(request.user?.role as UserRole);
     }
