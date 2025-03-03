@@ -16,7 +16,7 @@ export class AuthController {
     private readonly configService: ConfigService<EnvSchemaType, true>,
   ) {}
 
-  private cookieConfig: CookieOptions = {
+  private readonly cookieConfig: CookieOptions = {
     httpOnly: true,
     secure: this.configService.get("NODE_ENV") === "production",
     sameSite: "strict",

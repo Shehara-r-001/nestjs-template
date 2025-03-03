@@ -6,7 +6,7 @@ enum NodeEnvironment {
   PROD = "prod",
 }
 
-const envValidationSchema = Joi.object({
+const envValidationSchema = Joi.object<EnvSchemaType>({
   NODE_ENV: Joi.string()
     .valid(...Object.values(NodeEnvironment))
     .default(NodeEnvironment.DEV),
