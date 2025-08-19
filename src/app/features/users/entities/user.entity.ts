@@ -18,6 +18,8 @@ export enum UserRole {
   GUEST = "guest",
 }
 
+export type AuthType = "google" | "local";
+
 @Entity()
 export class User extends BaseEntity {
   @IsOptional()
@@ -71,4 +73,18 @@ export class User extends BaseEntity {
     description: "Role of the user",
   })
   role: string;
+
+  @IsOptional()
+  @IsString()
+  @Column({ type: "varchar", nullable: false, default: "local" })
+  authType: AuthType;
+
+  @IsOptional()
+  @IsString()
+  @Column({ type: "varchar", nullable: true })
+  @ApiProperty({
+    example: "",
+    description: "user's profile picture",
+  })
+  profilePicture?: string;
 }

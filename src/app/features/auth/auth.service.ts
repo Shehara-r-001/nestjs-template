@@ -7,6 +7,7 @@ import { ExceptionsService } from "@shared/services/exceptions.service";
 import { HashService } from "@shared/services/encrypt.service";
 import { excludeProperty } from "@shared/utils/general.utils";
 import { SignInDTO } from "@features/users/dto/signin.dto";
+import { User } from "@features/users/entities/user.entity";
 
 @Injectable()
 export class AuthService {
@@ -71,6 +72,44 @@ export class AuthService {
     // return {
     //   access_token: await this.jwtService.signAsync(payload),
     // };
+
+    return { token };
+  }
+
+  async validateGoogleUser(googleUser: {
+    email: string;
+    firstName: string;
+    lastName: string;
+    picture: string;
+  }) {
+    const isUserExist = await this.userService.isUserExist(googleUser.email);
+
+    if (!isUserExist) {
+      await this.userService.createUser({
+        email: googleUser.email,
+        username: googleUser.firstName,
+        password: "",
+        authType: "google",
+        profilePicture: googleUser.picture,
+        firstname: googleUser.firstName,
+        lastname: googleUser.lastName,
+      });
+    }
+
+    const user = await this.userService.findOneByEmail(googleUser.email);
+
+    const payload = {
+      sub: user.id,
+      ...excludeProperty(user, ["password"]),
+    };
+
+    return { user: payload };
+  }
+
+  async issueJwtForUser(user: User) {
+    const payload = excludeProperty(user, ["password"]);
+
+    const token = await this.jwtService.signAsync(payload);
 
     return { token };
   }

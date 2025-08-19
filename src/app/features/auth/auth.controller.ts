@@ -1,5 +1,14 @@
 import { CookieOptions, Response } from "express";
-import { Body, Controller, HttpStatus, Post, Res } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  Get,
+  HttpStatus,
+  Post,
+  Req,
+  Res,
+  UseGuards,
+} from "@nestjs/common";
 import { ApiBody, ApiTags } from "@nestjs/swagger";
 import { ConfigService } from "@nestjs/config";
 
@@ -7,6 +16,9 @@ import { AuthService } from "./auth.service";
 import { SignUpDTO } from "@features/users/dto/signup.dto";
 import { SignInDTO } from "@features/users/dto/signin.dto";
 import { EnvSchemaType } from "@core/config/env-validation.schema";
+import { GoogleAuthGuard } from "@core/guards/google-auth.guard";
+import { User } from "@features/users/entities/user.entity";
+import { Request } from "@shared/models/Request";
 
 @ApiTags("Auth")
 @Controller("auth")
@@ -51,5 +63,23 @@ export class AuthController {
     res.cookie("access_token", token, this.cookieConfig);
 
     return res.status(HttpStatus.OK).json({ message: "login successfully" });
+  }
+
+  @Get("google")
+  @UseGuards(GoogleAuthGuard)
+  async googleAuth() {
+    // guard will redirect google automatically
+  }
+
+  @Get("google/callback")
+  @UseGuards(GoogleAuthGuard)
+  async googleAuthRedirect(@Req() req: Request, @Res() res: Response) {
+    // req.user set by GoogleStartegy.validate()
+    const user = req.user;
+
+    const { token } = await this.authService.issueJwtForUser(user as User);
+
+    res.cookie("access_token", token, this.cookieConfig);
+    return res.redirect(this.configService.get("CLIENT_SUCCESS_REDIRECT"));
   }
 }
