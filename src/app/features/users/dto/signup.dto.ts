@@ -6,4 +6,8 @@ export class SignUpDTO extends PickType(User, [
   "email",
   "username",
   "password",
+  "authType",
+  "profilePicture",
+  "firstname",
+  "lastname",
 ]) {}
